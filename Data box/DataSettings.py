@@ -8,7 +8,7 @@ def format_dataframe(df):
     df.iloc[:, 1:] = df.iloc[:, 1:].apply(pd.to_numeric, errors='coerce')
     return df
 #data path 
-DATA_PATH = "Streamlit/DataPage/Tadata/updated_df.csv"#set it manually please
+DATA_PATH = "Tadata/updated_df.csv"#set it manually please
 today = datetime.today().strftime('%Y%m%d')
 # 缓存加载函数
 @st.cache_data
