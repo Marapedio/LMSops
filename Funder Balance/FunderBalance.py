@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import xlrd
 import numpy as np
-funder_format = pd.read_excel("/Users/harrietli/Documents/VScode/vscode101/Streamlit/DataPage/Tadata/funder_data.xlsx")
+funder_format = pd.read_excel("Tadata/funder_data.xlsx")
 
 
 col1, col2 = st.columns([3,2])
