@@ -7,7 +7,7 @@ import numpy as np
 funder_format = pd.read_excel("Tadata/funder_data.xlsx")
 
 # 页面布局
-col1, col2 = st.columns([3, 2])
+col1, col2 = st.columns([3, 1])
 
 with col2:
     dbs_file = st.file_uploader("Upload DBS Excel", type=["xls"])
