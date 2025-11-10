@@ -22,6 +22,8 @@ if dbs_file is not None:
     dbs_df['Account Number'] = pd.to_numeric(dbs_df['Account Number'], errors='coerce')
     dbs_df = dbs_df[selected_cols]
 
+    dbs_df['Currency'] = dbs_df['Currency'].replace('CNH', 'CNY')  # 替换 CNH 为 CNY
+
     merged_df = funder_format.merge(
         dbs_df,
         left_on=["Account no.", "Currency"],
@@ -34,9 +36,9 @@ if dbs_file is not None:
 # 处理 LMS 文件
 if lms_file is not None:
     lms_df = pd.read_excel(lms_file)
+    lms_df['Currency'] = lms_df['Currency'].replace('CNH', 'CNY')  # 替换 CNH 为 CNY
     selected_cols = ["Funder ID", "Currency", "Available Balance"]
     lms_df = lms_df[selected_cols]
-    lms_df['Currency'] = lms_df['Currency'].replace('CNH', 'CNY')
 
     merged_df = funder_format.merge(
         lms_df,
@@ -69,10 +71,5 @@ with col1:
                 return ['background-color: yellow' if row['Difference'] != 0 else '' for _ in row]
 
             st.dataframe(df.style.apply(highlight_diff, axis=1))
-       else:
+        else:
             st.error(f"Missing required columns: {required_cols}")
-
-
-
-
-
