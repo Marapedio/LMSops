@@ -52,7 +52,7 @@ if lms_file is not None:
 # 显示原始数据
 with col1:
     st.subheader("Original Data")
-    st.dataframe(funder_format.reset_index(drop=True))
+    st.dataframe(funder_format)
 
     # 如果两个文件都上传了，进行差异分析
     if lms_file is not None and dbs_file is not None:
@@ -67,11 +67,7 @@ with col1:
             
 
             st.subheader("Difference Details")
+            st.dataframe(df)
 
-            def highlight_diff(row):
-                return ['background-color: yellow' if row['Difference'] != 0 else '' for _ in row]
-                
-            st.dataframe(df.reset_index(drop=True))
-            st.dataframe(df.style.apply(highlight_diff, axis=1))
         else:
             st.error(f"Missing required columns: {required_cols}")
