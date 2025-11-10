@@ -67,12 +67,13 @@ with col1:
             st.dataframe(df.style.apply(highlight_diff, axis=1))
 
             # Display warning list
-            warning_col = 'Funder ID' if 'Funder ID' in df.columns else 'Funder list'
-            if warning_col in df.columns:
-                warnings = df[df['Difference'] != 0][[warning_col, 'Difference']]
+            columns_to_display = ['Funder list','Currency', 'Difference']
+            warnings = df[df['Difference'] != 0][columns_to_display]
+                
                 if not warnings.empty:
                     st.subheader("⚠️ Warning List")
                     st.table(warnings)
+
                 else:
                     st.success("Funder balance is OK. Thank you 😊")
             else:
