@@ -36,6 +36,7 @@ if lms_file is not None:
     lms_df = pd.read_excel(lms_file)
     selected_cols = ["Funder ID", "Currency", "Available Balance"]
     lms_df = lms_df[selected_cols]
+    lms_df['Currency'] = lms_df['Currency'].replace('CNH', 'CNY')
 
     merged_df = funder_format.merge(
         lms_df,
@@ -60,6 +61,7 @@ with col1:
         if all(col in df.columns for col in required_cols):
             df['Difference'] = df['LMS Amt'] - df['Bank record']
             df['Warning'] = np.where(df['Difference'] != 0, '⚠️ Difference Warning', '')
+            df = df[df['Difference'] != 0]
 
             st.subheader("Difference Details")
 
@@ -67,23 +69,7 @@ with col1:
                 return ['background-color: yellow' if row['Difference'] != 0 else '' for _ in row]
 
             st.dataframe(df.style.apply(highlight_diff, axis=1))
-
-            # 显示 warning list
-            def display_warning_list(df):
-                if 'Difference' in df.columns and 'Funder list' in df.columns:
-                    columns_to_display = ['Funder list', 'Currency', 'Difference']
-                    warnings = df[df['Difference'] != 0][columns_to_display]
-
-                    if not warnings.empty:
-                        st.subheader("⚠️ Warning List")
-                        st.table(warnings)
-                    else:
-                        st.success("Funder balance is OK. Thank you 😊")
-                else:
-                    st.warning("Column 'Funder list' not found. Cannot display warning list.")
-
-            display_warning_list(df)
-        else:
+       else:
             st.error(f"Missing required columns: {required_cols}")
 
 
